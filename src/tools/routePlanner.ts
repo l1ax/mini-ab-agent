@@ -86,9 +86,15 @@ export const routePlannerTool = new DynamicTool({
                 status: 'success'
             })
 
-        } catch (error) {
+        } catch (error: unknown) {
+            if (error instanceof Error) {
+                return JSON.stringify({
+                    error: `路线规划失败: ${error.message}`,
+                    status: "error"
+                })
+            }
             return JSON.stringify({
-                error: `路线规划失败: ${error.message}`,
+                error: `路线规划失败: ${error}`,
                 status: "error"
             })
         }

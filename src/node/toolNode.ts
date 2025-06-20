@@ -4,8 +4,9 @@
 
 import { toolsMap } from '../tools/index.js';
 import { ToolMessage } from '@langchain/core/messages';
+import {AgentState} from '../agent/state.js';
 
-export async function toolNode(state) {
+export async function toolNode(state: typeof AgentState.State) {
     const { toolCalls, messages } = state;
     
     if (!toolCalls || toolCalls.length === 0) {

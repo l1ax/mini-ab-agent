@@ -2,30 +2,31 @@
  * @file 定义graph中流转的state
  */
 
-import {Annotation} from '@langchain/langgraph';
+import {BaseMessage} from '@langchain/core/messages';
+import {Annotation, messagesStateReducer} from '@langchain/langgraph';
 
 export const AgentState = Annotation.Root({
     /* 消息列表 */
-    messages: Annotation({
-        reducer: (x, y) => x.concat(y),
+    messages: Annotation<BaseMessage[]>({
+        reducer: messagesStateReducer,
         default: () => []
     }),
     /* 工具调用列表 */
     toolCalls: Annotation({
-        reducer: (x, y) => x.concat(y),
+        reducer: (x: any[], y: any[]) => x.concat(y),
         default: () => []
     }),
     /* 最终答案 */
     finalAnswer: Annotation({
-        reducer: (x, y) => y,
+        reducer: (x: any, y: any) => y,
         default: () => null
     }),
     currentStep: Annotation({
-        reducer: (x, y) => y,
+        reducer: (x: number, y: number) => y,
         default: () => 0
     }),
     maxSteps: Annotation({
-        reducer: (x, y) => y,
+        reducer: (x: number, y: number) => y,
         default: () => 10
     })
 })

@@ -1,9 +1,10 @@
-import {AIMessage} from '@langchain/core/messages';
+import {AIMessage, BaseMessage, SystemMessage} from '@langchain/core/messages';
 import {llm} from '../llm/client.js';
 import {parseToolCall} from '../utils/parseToolCall.js';
 import {REACT_SYSTEM_PROMPT} from '../prompts/react.js';
+import {AgentState} from '../agent/state.js';
 
-export async function agentNode(state) {
+export async function agentNode(state: typeof AgentState.State) {
     const {messages, currentStep, maxSteps} = state;
 
     if (currentStep >= maxSteps) {
@@ -13,19 +14,16 @@ export async function agentNode(state) {
         }
     }
 
-    const systemMessage = {
-        role: "system",
-        content: REACT_SYSTEM_PROMPT
-    }
+    const systemMessage: SystemMessage = new SystemMessage(REACT_SYSTEM_PROMPT);
 
-    const allMessages = [systemMessage, ...messages];
+    const allMessages: BaseMessage[] = [systemMessage, ...messages];
 
     try {
         const response = await llm.stream(allMessages);
-        let fullContent = "";
+        let fullContent: string = "";
 
         for await (const chunk of response) {
-            const content = chunk.content || "";
+            const content = chunk.content as string || "";
             if (content) {
                 fullContent += content;
                 process.stdout.write(content);
