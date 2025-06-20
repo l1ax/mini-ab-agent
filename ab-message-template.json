@@ -1,0 +1,25 @@
+{
+  "data": {
+    "request_id": "c85b27f2-9f56-4085-8bc5-4d0de6ce18e5",
+    "date": "2025-06-20T09:23:45Z",
+    "answer": "",
+    "conversation_id": "496fdcca-da71-4de6-b0da-3cd379198e64",
+    "message_id": "fe2a5a3d-c3b8-4474-86ea-1b83e5795676",
+    "is_completion": false,
+    "content": [
+      {
+        "result_type": "",
+        "event_code": 0,
+        "event_message": "",
+        "event_type": "thought",
+        "event_id": "0",
+        "event_status": "running",
+        "content_type": "thought",
+        "visible_scope": "",
+        "outputs": {
+          "text": "回复用户。"
+        }
+      }
+    ]
+  }
+}

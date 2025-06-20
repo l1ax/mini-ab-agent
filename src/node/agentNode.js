@@ -21,15 +21,26 @@ export async function agentNode(state) {
     const allMessages = [systemMessage, ...messages];
 
     try {
-        const response = await llm.invoke(allMessages);
-        const content = response.content;
+        const response = await llm.stream(allMessages);
+        let fullContent = "";
 
-        const needTool = content.includes('Action:');
+        for await (const chunk of response) {
+            const content = chunk.content || "";
+            if (content) {
+                fullContent += content;
+                process.stdout.write(content);
+            }
+
+        }
+
+        console.log()
+
+        const needTool = fullContent.includes('Action:');
         if (needTool) {
-            const toolCall = parseToolCall(content);
+            const toolCall = parseToolCall(fullContent);
             if (toolCall) {
                 return {
-                    messages: [new AIMessage(content)],
+                    messages: [new AIMessage(fullContent)],
                     currentStep: currentStep + 1,
                     toolCalls: [toolCall]
                 }
@@ -37,17 +48,17 @@ export async function agentNode(state) {
         }
 
          // 检查是否是最终答案
-        if (content.includes("Final Answer:")) {
-            const finalAnswer = content.split("Final Answer:")[1]?.trim();
+        if (fullContent.includes("Final Answer:")) {
+            const finalAnswer = fullContent.split("Final Answer:")[1]?.trim();
             return {
-                messages: [new AIMessage(content)],
-                finalAnswer: finalAnswer || content,
+                messages: [new AIMessage(fullContent)],
+                finalAnswer: finalAnswer || fullContent,
                 currentStep: currentStep + 1
             };
         }
 
         return {
-            messages: [new AIMessage(content)],
+            messages: [new AIMessage(fullContent)],
             currentStep: currentStep + 1
         }
     }
