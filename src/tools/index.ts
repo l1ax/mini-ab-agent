@@ -1,10 +1,13 @@
 import {routePlannerTool} from './routePlanner.js';
 import {Tool} from '@langchain/core/tools';
+import {summarizer} from './summarize';
 
 export const tools: Tool[] = [
-    routePlannerTool
+    routePlannerTool,
+    summarizer
 ]
 
 export const toolsMap: Record<string, Tool> = {
-    route_planner: routePlannerTool
+    route_planner: routePlannerTool,
+    summarizer: summarizer
 }

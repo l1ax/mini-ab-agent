@@ -12,15 +12,20 @@
   "license": "ISC",
   "description": "",
   "dependencies": {
-    "@langchain/core": "^0.3.57",
+    "@langchain/core": "0.3.59-rc.2",
     "@langchain/deepseek": "^0.0.1",
     "@langchain/langgraph": "^0.3.1",
-    "dotenv": "^16.5.0"
+    "@langchain/openai": "0.5.15",
+    "dotenv": "^16.5.0",
+    "openai": "^5.7.0"
   },
   "devDependencies": {
+    "@langchain/google-genai": "^0.2.10",
     "@types/node": "^24.0.3",
+    "langsmith": "^0.3.33",
     "ts-node": "^10.9.2",
     "tsx": "^4.20.3",
-    "typescript": "^5.8.3"
+    "typescript": "^5.8.3",
+    "zod": "^3.25.67"
   }
 }
