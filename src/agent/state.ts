@@ -4,6 +4,7 @@
 
 import {BaseMessage} from '@langchain/core/messages';
 import {Annotation, messagesStateReducer} from '@langchain/langgraph';
+import {IBaseEvent} from '../event/baseEvent';
 
 export const AgentState = Annotation.Root({
     /* 消息列表 */
@@ -28,5 +29,13 @@ export const AgentState = Annotation.Root({
     maxSteps: Annotation({
         reducer: (x: number, y: number) => y,
         default: () => 10
+    }),
+    events: Annotation({
+        reducer: (x: IBaseEvent<any>[], y: IBaseEvent<any>[]) => x.concat(y),
+        default: () => []
+    }),
+    eventId: Annotation({
+        reducer: (x: number, y: number) => y,
+        default: () => 0
     })
 })
